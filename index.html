@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe • X vs O</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-zinc-950 text-white min-h-screen font-inter">
+    <div class="max-w-md mx-auto min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="pt-8 pb-6 px-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-10 h-10 bg-violet-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-violet-500/30">
+                        ✕
+                    </div>
+                    <div>
+                        <h1 class="text-4xl font-bold tracking-tighter font-space">TIC TAC TOE</h1>
+                        <p class="text-zinc-400 text-sm -mt-1">vs Computer</p>
+                    </div>
+                </div>
+                <div id="turn-indicator" 
+                     class="px-4 py-2 bg-zinc-900 rounded-3xl text-sm font-medium flex items-center gap-x-2 shadow-inner">
+                    <i class="fa-solid fa-user text-emerald-400"></i>
+                    <span id="current-turn">YOUR TURN</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Difficulty -->
+        <div class="px-6 pb-6">
+            <div class="bg-zinc-900 rounded-3xl p-2 flex gap-1 shadow-inner">
+                <button onclick="setDifficulty(0)" id="btn-easy"
+                        class="flex-1 py-3 text-sm font-semibold rounded-3xl transition-all difficulty-btn active">
+                    EASY
+                </button>
+                <button onclick="setDifficulty(1)" id="btn-medium"
+                        class="flex-1 py-3 text-sm font-semibold rounded-3xl transition-all difficulty-btn">
+                    MEDIUM
+                </button>
+                <button onclick="setDifficulty(2)" id="btn-hard"
+                        class="flex-1 py-3 text-sm font-semibold rounded-3xl transition-all difficulty-btn">
+                    HARD
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Container -->
+        <div class="flex-1 px-6 flex flex-col">
+            <!-- Board -->
+            <div class="relative mx-auto" style="width: 320px;">
+                <div id="game-board" 
+                     class="grid grid-cols-3 gap-3 bg-zinc-900 p-4 rounded-3xl shadow-2xl shadow-black/50">
+                    <!-- Cells populated by JS -->
+                </div>
+                
+                <!-- Winning line overlay -->
+                <div id="winning-line" class="absolute hidden pointer-events-none"></div>
+            </div>
+
+            <!-- Status -->
+            <div id="status" 
+                 class="mt-8 text-center text-xl font-medium min-h-[32px] transition-all">
+            </div>
+
+            <!-- Scoreboard -->
+            <div class="mt-auto mb-8 bg-zinc-900/70 rounded-3xl p-6">
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <div class="text-emerald-400 text-4xl font-bold font-space" id="player-score">0</div>
+                        <div class="text-xs text-zinc-400 tracking-widest mt-1">PLAYER (X)</div>
+                    </div>
+                    <div>
+                        <div class="text-amber-400 text-4xl font-bold font-space" id="draw-score">0</div>
+                        <div class="text-xs text-zinc-400 tracking-widest mt-1">DRAWS</div>
+                    </div>
+                    <div>
+                        <div class="text-rose-400 text-4xl font-bold font-space" id="computer-score">0</div>
+                        <div class="text-xs text-zinc-400 tracking-widest mt-1">COMPUTER (O)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="p-6 border-t border-zinc-800 bg-zinc-900">
+            <div class="flex gap-4">
+                <button onclick="restartGame()" 
+                        class="flex-1 py-4 bg-zinc-800 hover:bg-zinc-700 transition-colors rounded-2xl font-semibold flex items-center justify-center gap-x-2 active:scale-95">
+                    <i class="fa-solid fa-rotate"></i>
+                    NEW GAME
+                </button>
+                <button onclick="resetScore()" 
+                        class="flex-1 py-4 bg-zinc-800 hover:bg-rose-900/30 hover:text-rose-400 transition-all rounded-2xl font-semibold flex items-center justify-center gap-x-2 active:scale-95">
+                    <i class="fa-solid fa-trash"></i>
+                    RESET SCORES
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div id="result-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+        <div class="bg-zinc-900 rounded-3xl p-8 max-w-xs w-full mx-6 text-center">
+            <div id="modal-icon" class="text-7xl mb-6"></div>
+            <h2 id="modal-title" class="text-3xl font-bold mb-2"></h2>
+            <p id="modal-subtitle" class="text-zinc-400 mb-8"></p>
+            
+            <div class="flex gap-4">
+                <button onclick="closeModalAndRestart()" 
+                        class="flex-1 py-4 bg-violet-600 hover:bg-violet-500 rounded-2xl font-semibold transition-colors">
+                    PLAY AGAIN
+                </button>
+                <button onclick="closeModal()" 
+                        class="flex-1 py-4 bg-zinc-700 hover:bg-zinc-600 rounded-2xl font-semibold transition-colors">
+                    CLOSE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
